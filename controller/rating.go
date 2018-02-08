@@ -116,7 +116,7 @@ func (c *Controller) GetRatingsByLocation(w http.ResponseWriter, r *http.Request
 
 	var ratings model.Ratings
 	if err := c.Dal.GetRatingsByAddress(&ratings, &address); err != nil {
-		logrus.WithError(err).Error("Unable to retrieve ratings for user from db")
+		logrus.WithError(err).Error("Unable to retrieve ratings for user from database")
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
