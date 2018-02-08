@@ -19,12 +19,13 @@ type Config struct {
 // FromEnv creates a configuration from the environment.
 func FromEnv() *Config {
 	return &Config{
-		Host:         os.Getenv("TESLA_HOST"),
-		Port:         os.Getenv("TESLA_PORT"),
-		PostgresHost: os.Getenv("TESLA_POSTGRESHOST"),
-		PostgresPort: os.Getenv("TESLA_POSTGRESPORT"),
-		PostgresUser: os.Getenv("TESLA_POSTGRESUSER"),
-		PostgresPass: os.Getenv("TESLA_POSTGRESPASS"),
+		Host:             os.Getenv("TESLA_HOST"),
+		Port:             os.Getenv("TESLA_PORT"),
+		PostgresHost:     os.Getenv("TESLA_POSTGRESHOST"),
+		PostgresPort:     os.Getenv("TESLA_POSTGRESPORT"),
+		PostgresUser:     os.Getenv("TESLA_POSTGRESUSER"),
+		PostgresPass:     os.Getenv("TESLA_POSTGRESPASS"),
+		PostgresDatabase: os.Getenv("TESLA_POSTGRESDATABASE"),
 	}
 }
 

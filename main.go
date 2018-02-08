@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	cfg := config.LocalTest()
+	cfg := config.FromEnv()
 	dal := data.New(cfg)
 	srv := server.New(cfg, dal, log.WithField("service", "server"))
 	controller.Init(srv)

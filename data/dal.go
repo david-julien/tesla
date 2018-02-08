@@ -1,8 +1,8 @@
 package data
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/davidjulien/tesla/config"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/go-pg/pg"
 )

@@ -11,10 +11,10 @@ import (
 
 func CreateTempDAL() *DAL {
 	db := pg.Connect(&pg.Options{
-		Addr:     config.LocalTest().PostgresHost + ":" + config.LocalTest().PostgresPort,
-		User:     config.LocalTest().PostgresUser,
-		Password: config.LocalTest().PostgresPass,
-		Database: config.LocalTest().PostgresDatabase,
+		Addr:     config.FromEnv().PostgresHost + ":" + config.FromEnv().PostgresPort,
+		User:     config.FromEnv().PostgresUser,
+		Password: config.FromEnv().PostgresPass,
+		Database: config.FromEnv().PostgresDatabase,
 	})
 	return &DAL{db}
 }
@@ -23,7 +23,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 	dal := CreateTempDAL()
 
 	restaurants := new(model.Restaurants)
-	query := RestaurantQuery{
+	query := &RestaurantQuery{
 		Name:       "yummy restaurant",
 		City:       "Palo Alto",
 		Category:   "chinese",
@@ -36,7 +36,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 		t.Fail()
 	}
 
-	query = RestaurantQuery{
+	query = &RestaurantQuery{
 		City:       "Palo Alto",
 		Category:   "chinese",
 		TotalScore: 1,
@@ -49,7 +49,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 		t.Fail()
 	}
 
-	query = RestaurantQuery{
+	query = &RestaurantQuery{
 		Category:   "chinese",
 		TotalScore: 1,
 		GLE:        "e",
@@ -61,7 +61,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 		t.Fail()
 	}
 
-	query = RestaurantQuery{
+	query = &RestaurantQuery{
 		TotalScore: 1,
 		GLE:        "lte",
 	}
@@ -72,7 +72,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 		t.Fail()
 	}
 
-	query = RestaurantQuery{
+	query = &RestaurantQuery{
 		TotalScore: 0,
 		GLE:        "lte",
 	}
@@ -83,7 +83,7 @@ func TestGetRestaurantsByRestaurantQuery(t *testing.T) {
 		t.Fail()
 	}
 
-	query = RestaurantQuery{}
+	query = &RestaurantQuery{}
 
 	restaurants = new(model.Restaurants)
 	if err := dal.GetRestaurantsByRestaurantQuery(restaurants, query); err != nil {
