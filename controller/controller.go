@@ -1,0 +1,50 @@
+package controller
+
+import (
+	"github.com/davidjulien/tesla/server"
+
+	log "github.com/sirupsen/logrus"
+)
+
+// Controller wraps a server reference in order to access the Log and Dal from
+// the server to be used in http handler functions.
+type Controller struct {
+	*server.Server
+	log *log.Entry
+}
+
+// Init creates a new controller using the provided server and returns a
+// reference to the controller.
+func Init(s *server.Server) *Controller {
+	c := &Controller{
+		s,
+		log.WithField("service", "controller"),
+	}
+	c.setRoutes()
+	return c
+}
+
+// setRoutes registers routes.
+func (c *Controller) setRoutes() {
+	r := c.Router
+
+	api := r.PathPrefix("/api").Subrouter()
+
+	// User endpoints
+	api.HandleFunc("/user/create", c.CreateUser).Methods("POST")
+	api.HandleFunc("/user/update", c.UpdateUser).Methods("POST")
+	api.HandleFunc("/user/get", c.GetUser).Methods("GET")
+	api.HandleFunc("/user/getall", c.GetUser).Methods("GET")
+
+	// Restaurant endpoints
+	api.HandleFunc("/restaurant/create", c.GetUser).Methods("POST")
+	api.HandleFunc("/restaurant/add/address", c.AddAddressToRestaurant).Methods("POST")
+	api.HandleFunc("/restaurant/update", c.UpdateRestaurant).Methods("POST")
+	api.HandleFunc("/restaurant/query", c.GetRestaurants).Methods("GET")
+
+	// Rating endpoints
+	api.HandleFunc("/rating/create", c.CreateRating).Methods("POST")
+	api.HandleFunc("/rating/update", c.UpdateRating).Methods("POST")
+	api.HandleFunc("/rating/getall/by/user", c.GetRatingsByUser).Methods("GET")
+	api.HandleFunc("/rating/getall/by/location", c.GetRatingsByLocation).Methods("GET")
+}
