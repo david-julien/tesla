@@ -22,7 +22,7 @@ func (c *Controller) CreateRating(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rating.ID != "" {
-		logrus.Error("Unable to insert restaurant with preexisting ID")
+		logrus.Error("Unable to insert rating with preexisting ID")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -82,7 +82,7 @@ func (c *Controller) GetRatingsByUser(w http.ResponseWriter, r *http.Request) {
 
 	var ratings model.Ratings
 	if err := c.Dal.GetRatingsByUser(&ratings, &user); err != nil {
-		logrus.WithError(err).Error("Unable to retrieve ratings for user from db")
+		logrus.WithError(err).Error("Unable to retrieve ratings for user from database")
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
