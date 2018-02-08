@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -200,10 +199,6 @@ func (c *Controller) UpdateRating(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(finalRating.ID)
-	fmt.Println(finalRating.Cost)
-	fmt.Println(finalRating.Cleanliness)
-	fmt.Println(finalRating.Service)
 	rating.TotalScore =
 		(finalRating.Cleanliness +
 			finalRating.Cost +
