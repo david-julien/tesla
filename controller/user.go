@@ -35,12 +35,6 @@ func (c *Controller) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(&user); err != nil {
-		logrus.WithError(err).Error("Unable to encode user struct to json")
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -89,12 +83,6 @@ func (c *Controller) UpdateUser(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-	}
-
-	if err := json.NewEncoder(w).Encode(&user); err != nil {
-		logrus.WithError(err).Error("Unable to encode user struct to json")
-		w.WriteHeader(http.StatusInternalServerError)
-		return
 	}
 
 	w.WriteHeader(http.StatusOK)
