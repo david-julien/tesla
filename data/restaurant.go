@@ -48,8 +48,8 @@ func (dal *DAL) SetRestaurantCategory(restaurant *model.Restaurant) error {
 }
 
 // GetRestaurantByID gets a restaurant by its ID
-func (dal *DAL) GetRestaurantByID(user *model.Restaurant) error {
-	return dal.db.Model(user).
+func (dal *DAL) GetRestaurantByID(restaurant *model.Restaurant) error {
+	return dal.db.Model(restaurant).
 		Where("id=?id").
 		Select()
 }
