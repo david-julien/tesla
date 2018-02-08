@@ -191,7 +191,7 @@ func (c *Controller) UpdateRating(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Update total cost
+	// Update total score
 	var finalRating model.Rating
 	finalRating.ID = rating.ID
 	if err := c.Dal.GetRatingByID(&finalRating); err != nil {
