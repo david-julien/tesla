@@ -33,7 +33,7 @@ func (c *Controller) setRoutes() {
 	// User endpoints
 	api.HandleFunc("/user/create", c.CreateUser).Methods("POST")
 	api.HandleFunc("/user/update", c.UpdateUser).Methods("POST")
-	api.HandleFunc("/user/get/{id:[0-9]+}", c.GetUser).Methods("GET")
+	api.HandleFunc("/user/{id:[0-9]+}", c.GetUser).Methods("GET")
 	api.HandleFunc("/users", c.GetUsers).Methods("GET")
 
 	// Restaurant endpoints
