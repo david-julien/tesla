@@ -47,25 +47,10 @@ func TestUpdateUser(t *testing.T) {
 	}
 }
 
-func TestGetUser(t *testing.T) {
-	c := generateTestController()
-	rr, _ := generateRequestJSONString(
-		"/api/user/get",
-		"GET",
-		`{"user_id":"1"}`,
-		c.GetUser)
-
-	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-}
-
 func TestGetUsers(t *testing.T) {
 	c := generateTestController()
 	rr, _ := generateRequestJSONString(
-		"/api/user/getall",
+		"/api/users",
 		"GET",
 		"",
 		c.GetUsers)
@@ -163,56 +148,6 @@ func TestCreateRating(t *testing.T) {
 			"user_id":"1"
 		}`,
 		c.CreateRating)
-
-	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-}
-
-func TestGetRatingsByUser(t *testing.T) {
-	c := generateTestController()
-	rr, _ := generateRequestJSONString(
-		"/rating/getall/by/user",
-		"GET",
-		`{"user_id":"1"}`,
-		c.GetRatingsByUser)
-
-	var ratings model.Ratings
-	if err := json.NewDecoder(rr.Body).Decode(&ratings); err != nil {
-		return
-	}
-
-	// Print all ratings
-	for i := 0; i < len(ratings); i++ {
-		fmt.Println(ratings[i])
-	}
-
-	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-}
-
-func TestGetRatingByLocation(t *testing.T) {
-	c := generateTestController()
-	rr, _ := generateRequestJSONString(
-		"/rating/getall/by/location",
-		"GET",
-		`{"address_id":"1"}`,
-		c.GetRatingsByLocation)
-
-	var ratings model.Ratings
-	if err := json.NewDecoder(rr.Body).Decode(&ratings); err != nil {
-		return
-	}
-
-	// Print all ratings
-	for i := 0; i < len(ratings); i++ {
-		fmt.Println(ratings[i])
-	}
 
 	// Check the status code is what we expect.
 	if status := rr.Code; status != http.StatusOK {

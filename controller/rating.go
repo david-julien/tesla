@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 
 	"github.com/davidjulien/tesla/model"
@@ -68,11 +69,8 @@ func (c *Controller) GetRatingsByUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var user model.User
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		logrus.WithError(err).Error("Unable to decode user")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	vars := mux.Vars(r)
+	user.ID = vars["id"]
 
 	if user.ID == "" {
 		logrus.Error("Unable to retrieve ratings for user without user ID")
@@ -102,11 +100,8 @@ func (c *Controller) GetRatingsByLocation(w http.ResponseWriter, r *http.Request
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var address model.Address
-	if err := json.NewDecoder(r.Body).Decode(&address); err != nil {
-		logrus.WithError(err).Error("Unable to decode address")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	vars := mux.Vars(r)
+	address.ID = vars["id"]
 
 	if address.ID == "" {
 		logrus.Error("Unable to retrieve ratings for address without address ID")

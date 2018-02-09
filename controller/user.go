@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 
 	"github.com/davidjulien/tesla/model"
@@ -94,11 +95,8 @@ func (c *Controller) GetUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	var user model.User
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		logrus.WithError(err).Error("Unable to decode user")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	vars := mux.Vars(r)
+	user.ID = vars["id"]
 
 	if err := c.Dal.GetUserByID(&user); err != nil {
 		logrus.WithError(err).Error("Unable to retrieve user from db")

@@ -33,18 +33,18 @@ func (c *Controller) setRoutes() {
 	// User endpoints
 	api.HandleFunc("/user/create", c.CreateUser).Methods("POST")
 	api.HandleFunc("/user/update", c.UpdateUser).Methods("POST")
-	api.HandleFunc("/user/get", c.GetUser).Methods("GET")
-	api.HandleFunc("/user/getall", c.GetUsers).Methods("GET")
+	api.HandleFunc("/user/get/{id:[0-9]+}", c.GetUser).Methods("GET")
+	api.HandleFunc("/users", c.GetUsers).Methods("GET")
 
 	// Restaurant endpoints
 	api.HandleFunc("/restaurant/create", c.CreateRestaurant).Methods("POST")
 	api.HandleFunc("/restaurant/add/address", c.AddAddressToRestaurant).Methods("POST")
 	api.HandleFunc("/restaurant/update", c.UpdateRestaurant).Methods("POST")
-	api.HandleFunc("/restaurant/query", c.GetRestaurants).Methods("GET")
+	api.HandleFunc("/restaurant/query/", c.GetRestaurants).Methods("GET")
 
 	// Rating endpoints
 	api.HandleFunc("/rating/create", c.CreateRating).Methods("POST")
 	api.HandleFunc("/rating/update", c.UpdateRating).Methods("POST")
-	api.HandleFunc("/rating/getall/by/user", c.GetRatingsByUser).Methods("GET")
-	api.HandleFunc("/rating/getall/by/location", c.GetRatingsByLocation).Methods("GET")
+	api.HandleFunc("/rating/user/{id:[0-9]+}", c.GetRatingsByUser).Methods("GET")
+	api.HandleFunc("/rating/location/{id:[0-9]+}", c.GetRatingsByLocation).Methods("GET")
 }

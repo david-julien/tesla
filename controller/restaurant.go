@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -168,12 +169,22 @@ func (c *Controller) GetRestaurants(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
+	v := r.URL.Query()
 	var restaurantQuery data.RestaurantQuery
-	if err := json.NewDecoder(r.Body).Decode(&restaurantQuery); err != nil {
-		logrus.WithError(err).Error("Unable to decode restaurant query")
-		w.WriteHeader(http.StatusBadRequest)
-		return
+	restaurantQuery.Name = v.Get("name")
+	restaurantQuery.Category = v.Get("category")
+	restaurantQuery.City = v.Get("city")
+	restaurantQuery.GLE = v.Get("gle")
+	totalScore := v.Get("total-score")
+	if totalScore != "" {
+		totalScoreNumeric, err := strconv.Atoi(totalScore)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		restaurantQuery.TotalScore = totalScoreNumeric
 	}
+	logrus.Info(totalScore)
 
 	setRestaurantQueryStringsToLowerCase(&restaurantQuery)
 
