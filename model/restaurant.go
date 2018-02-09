@@ -7,8 +7,6 @@ type Restaurant struct {
 	ID       string `json:"restaurant_id"`
 	Name     string `sql:"restaurant_name" json:"restaurant_name"`
 	Category string `sql:"category" json:"category"`
-
-	Addresses Addresses `sql:"-"`
 }
 
 // Restaurants represents a list of restaurant objects

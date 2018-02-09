@@ -27,6 +27,12 @@ func (c *Controller) CreateRestaurant(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if restaurant.Name == "" || restaurant.Category == "" {
+		logrus.Error("Missing fields for restaruant")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	setRestaurantStringsToLowerCase(&restaurant)
 
 	if restaurant.ID != "" {
@@ -37,6 +43,21 @@ func (c *Controller) CreateRestaurant(w http.ResponseWriter, r *http.Request) {
 	var address model.Address
 	if err := json.NewDecoder(bytes.NewReader(body)).Decode(&address); err != nil {
 		logrus.WithError(err).Error("Unable to decode address")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if address.RestaurantID != "" {
+		logrus.Error("Unable to use existing address for restaurant")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if address.Address == "" ||
+		address.City == "" ||
+		address.State == "" ||
+		address.ZipCode == "" {
+		logrus.Error("Missing fields for address")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -55,7 +76,6 @@ func (c *Controller) CreateRestaurant(w http.ResponseWriter, r *http.Request) {
 	address.RestaurantID = restaurant.ID
 	if err := c.Dal.CreateAddress(&address); err != nil {
 		logrus.WithError(err).Error("Unable to create address for restaurant")
-		// TODO remove restaurant
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

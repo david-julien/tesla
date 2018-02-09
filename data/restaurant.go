@@ -59,8 +59,12 @@ func (dal *DAL) GetRestaurantsByRestaurantQuery(restaurants *model.Restaurants, 
 	sqlStatement := `
 	SELECT restaurants.id, restaurants.restaurant_name, restaurants.category FROM restaurants
 	JOIN addresses ON addresses.restaurant_id = restaurants.id
-	JOIN ratings ON ratings.address_id = addresses.id
 	`
+
+	if query.TotalScore != 0 {
+		sqlStatement += `JOIN ratings ON ratings.address_id = addresses.id `
+	}
+
 	where := false
 	if query.City != "" {
 		sqlStatement += `WHERE addresses.city = '` + query.City + `' `
@@ -108,7 +112,12 @@ func (dal *DAL) GetRestaurantsByRestaurantQuery(restaurants *model.Restaurants, 
 		}
 	}
 
-	sqlStatement += `ORDER BY AVG(ratings.total_score) DESC;`
+	if query.TotalScore != 0 {
+		sqlStatement += `ORDER BY AVG(ratings.total_score) DESC;`
+	} else {
+		sqlStatement += `;`
+	}
+
 	_, err := dal.db.Query(restaurants, sqlStatement)
 	return err
 }
