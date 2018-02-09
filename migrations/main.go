@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/davidjulien/tesla/config"
 	"github.com/go-pg/migrations"
 	"github.com/go-pg/pg"
 )
@@ -25,9 +26,10 @@ func main() {
 	flag.Parse()
 
 	db := pg.Connect(&pg.Options{
-		User:     "api",
-		Database: "api",
-		Password: "api",
+		Addr:     config.FromEnv().PostgresHost + ":" + config.FromEnv().PostgresPort,
+		User:     config.FromEnv().PostgresUser,
+		Password: config.FromEnv().PostgresPass,
+		Database: config.FromEnv().PostgresDatabase,
 	})
 
 	oldVersion, newVersion, err := migrations.Run(db, flag.Args()...)

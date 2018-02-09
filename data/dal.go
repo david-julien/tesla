@@ -23,9 +23,10 @@ func New(c *config.Config) *DAL {
 	})
 	dal := &DAL{db}
 
+	log.Info("DAL waiting for database...")
 	err := dal.Ping()
-	if err != nil {
-		log.Fatal("Error initializing the database: ", err.Error())
+	for err != nil {
+		err = dal.Ping()
 	}
 
 	log.Info("Starting DAL using ", dal.db.Options().Addr)

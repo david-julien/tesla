@@ -34,10 +34,10 @@ func (c *Controller) setRoutes() {
 	api.HandleFunc("/user/create", c.CreateUser).Methods("POST")
 	api.HandleFunc("/user/update", c.UpdateUser).Methods("POST")
 	api.HandleFunc("/user/get", c.GetUser).Methods("GET")
-	api.HandleFunc("/user/getall", c.GetUser).Methods("GET")
+	api.HandleFunc("/user/getall", c.GetUsers).Methods("GET")
 
 	// Restaurant endpoints
-	api.HandleFunc("/restaurant/create", c.GetUser).Methods("POST")
+	api.HandleFunc("/restaurant/create", c.CreateRestaurant).Methods("POST")
 	api.HandleFunc("/restaurant/add/address", c.AddAddressToRestaurant).Methods("POST")
 	api.HandleFunc("/restaurant/update", c.UpdateRestaurant).Methods("POST")
 	api.HandleFunc("/restaurant/query", c.GetRestaurants).Methods("GET")

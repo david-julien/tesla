@@ -17,7 +17,5 @@ RUN glide install
 # Build Tesla
 RUN go install github.com/davidjulien/tesla
 
-# RUN go run migrations/*.go up
-
 # Start Tesla
 ENTRYPOINT [ "tesla" ]
