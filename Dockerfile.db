@@ -4,4 +4,4 @@ FROM postgres
 
 
 # Copy the SQL script for initializing the DB to the Postgres container
-ADD ./migrations/tables.sql /tables.sql
+COPY ./migrations/tables.sql /docker-entrypoint-initdb.d/
