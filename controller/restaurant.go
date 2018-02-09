@@ -184,7 +184,6 @@ func (c *Controller) GetRestaurants(w http.ResponseWriter, r *http.Request) {
 		}
 		restaurantQuery.TotalScore = totalScoreNumeric
 	}
-	logrus.Info(totalScore)
 
 	setRestaurantQueryStringsToLowerCase(&restaurantQuery)
 

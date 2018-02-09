@@ -177,35 +177,6 @@ func TestUpdateRating(t *testing.T) {
 	}
 }
 
-func TestQueryRestaurant(t *testing.T) {
-	c := generateTestController()
-	rr, _ := generateRequestJSONString(
-		"/restaurant/query",
-		"POST",
-		`{
-			"city":"palo alto",
-			"total_score":1,
-			"gle":"gte"
-		}`,
-		c.GetRestaurants)
-
-	var restaurants model.Restaurants
-	if err := json.NewDecoder(rr.Body).Decode(&restaurants); err != nil {
-		return
-	}
-
-	// Print all ratings
-	for i := 0; i < len(restaurants); i++ {
-		fmt.Println(restaurants[i].Name)
-	}
-
-	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-}
-
 // Generates a test register user request with jsonString as body
 func generateRequestJSONString(
 	endpoint string,
