@@ -197,7 +197,7 @@ func generateRequestJSONString(
 
 // Generates a test controller with a server with a nil server
 func generateTestController() *controller.Controller {
-	cfg := config.FromEnv()
+	cfg := config.LocalTest()
 	dal := data.New(cfg)
 
 	s := &server.Server{

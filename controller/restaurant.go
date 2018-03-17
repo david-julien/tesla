@@ -166,8 +166,8 @@ func (c *Controller) UpdateRestaurant(w http.ResponseWriter, r *http.Request) {
 // GetRestaurants gets a list of restaurants with the properties listed in a
 // restaurant query
 func (c *Controller) GetRestaurants(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
 
 	v := r.URL.Query()
 	var restaurantQuery data.RestaurantQuery

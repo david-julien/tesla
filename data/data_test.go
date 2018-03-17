@@ -11,10 +11,10 @@ import (
 
 func CreateTempDAL() *DAL {
 	db := pg.Connect(&pg.Options{
-		Addr:     config.FromEnv().PostgresHost + ":" + config.FromEnv().PostgresPort,
-		User:     config.FromEnv().PostgresUser,
-		Password: config.FromEnv().PostgresPass,
-		Database: config.FromEnv().PostgresDatabase,
+		Addr:     config.LocalTest().PostgresHost + ":" + config.LocalTest().PostgresPort,
+		User:     config.LocalTest().PostgresUser,
+		Password: config.LocalTest().PostgresPass,
+		Database: config.LocalTest().PostgresDatabase,
 	})
 	return &DAL{db}
 }
