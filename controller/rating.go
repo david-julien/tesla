@@ -88,10 +88,7 @@ func (c *Controller) GetRatingsByUser(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(&ratings); err != nil {
 		logrus.WithError(err).Error("Unable to encode ratings to json")
 		w.WriteHeader(http.StatusInternalServerError)
-		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 // GetRatingsByLocation get a list of ratings for a restaurant location
@@ -119,10 +116,7 @@ func (c *Controller) GetRatingsByLocation(w http.ResponseWriter, r *http.Request
 	if err := json.NewEncoder(w).Encode(&ratings); err != nil {
 		logrus.WithError(err).Error("Unable to encode ratings to json")
 		w.WriteHeader(http.StatusInternalServerError)
-		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 // UpdateRating updates a rating's cost, food, cleanliness, and service scores

@@ -196,10 +196,7 @@ func (c *Controller) GetRestaurants(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(&restaurants); err != nil {
 		logrus.WithError(err).Error("Unable to encode restaurants to json")
 		w.WriteHeader(http.StatusInternalServerError)
-		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func setAddressStringsToLowerCase(address *model.Address) {
