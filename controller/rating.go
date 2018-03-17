@@ -78,10 +78,22 @@ func (c *Controller) GetRatingsByUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if the user exists
+	if err := c.Dal.GetUserByID(&user); err != nil {
+		logrus.WithError(err).Error("Unable to retrieve user from db")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	var ratings model.Ratings
 	if err := c.Dal.GetRatingsByUser(&ratings, &user); err != nil {
 		logrus.WithError(err).Error("Unable to retrieve ratings for user from database")
 		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if len(ratings) == 0 {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 
@@ -106,10 +118,22 @@ func (c *Controller) GetRatingsByLocation(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	// Check if the address exists
+	if err := c.Dal.GetAddressByID(&address); err != nil {
+		logrus.WithError(err).Error("Unable to retrieve address from db")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	var ratings model.Ratings
 	if err := c.Dal.GetRatingsByAddress(&ratings, &address); err != nil {
-		logrus.WithError(err).Error("Unable to retrieve ratings for user from database")
+		logrus.WithError(err).Error("Unable to retrieve ratings for address from database")
 		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if len(ratings) == 0 {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 

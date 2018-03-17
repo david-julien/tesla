@@ -193,6 +193,11 @@ func (c *Controller) GetRestaurants(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(restaurants) == 0 {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
 	if err := json.NewEncoder(w).Encode(&restaurants); err != nil {
 		logrus.WithError(err).Error("Unable to encode restaurants to json")
 		w.WriteHeader(http.StatusInternalServerError)

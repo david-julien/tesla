@@ -122,6 +122,11 @@ func (c *Controller) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(users) == 0 {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
 	if err := json.NewEncoder(w).Encode(&users); err != nil {
 		logrus.WithError(err).Error("Unable to encode users to json")
 		w.WriteHeader(http.StatusInternalServerError)
